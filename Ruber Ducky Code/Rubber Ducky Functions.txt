@@ -1,0 +1,138 @@
+//Esstential Libraries
+#include "Keyboard.h"
+
+//THESE ARE ALL THE ESSENTIAL FUNCTIONS OUR RUBER DUCKY NEEDS TO HAVE
+//FORLOOPING THROUGH ARRAYS CAN BE USEFUL WHEN ENTERING IN KEYSTROKES ON THE SYSTEM
+
+//CMD prompt (Reference the KeyCombination() )
+    
+    //-> Enables Admin Privelages for programs that require it at prompt
+        void EnableAdminPrivelege(uint8_t holdkey, uint8_t key)
+        {
+            delay(600);
+            Keyboard.press(holdkey);
+            delay(100);
+            Keyboard.press(F(key));
+            delay(100);
+    
+        }
+
+    //-> Runs Cmd Prompt (REFERENCE THE RunProg() )
+        void Cmd()
+        {
+            RunProg("cmd");
+            //Enters commands into the terminal for use 
+        }
+
+    //-> Runs Powershell
+        void PowerShellCmd()
+        {
+            KeyCombination(KEY_LEFT_GUI, 'x');
+            Keyboard.print(F("a"));
+            EnableAdminPrivelege(KEY_LEFT_ARROW, " ");
+            delay(100);
+            //Enters commands into the terminal for use 
+        }
+
+
+
+
+
+//Keyboard short-cut commands
+/** Basic keys to be held when running a short-cut command
+ * uint8_t KEY VALUES ENTERED MUST BE OF TYPE BINARY -> unit8_t
+ * uint8_t KEY_LEFT_GUI  //Left Window button
+ * uint8_t KEY_LEFT_ALT  //Left Alt button
+ * uint8_t KEY_LEFT_CTRL //Left Ctrl button
+ * uint8_t KEY_LEFT_SHIFT //Left Shift button
+ * uint8_t KEY_RETURN //Enter Button
+ * uint8_t KEY_LEFT_ARROW
+ * uint8_t KEY_DOWN_ARROW
+ **/
+    //-> Types/ enters multiple keys (used for executing shortcuts)
+        void KeyCombination(uint8_t holdkey, uint8_t targetkey)
+        {
+            Keyboard.press(holdkey); //press will press the key
+            delay(100);
+            Keyboard.press(targetkey);
+            delay(100);
+            Keyboard.releaseAll(); //release multiple keys pressed
+            delay(100);
+        }
+
+    //-> Runs a Program via the path 
+        void RunProg(String Program)
+        {
+            KeyCombination(KEY_LEFT_GUI, 'r'); //Opens the run prompt
+            Keyboard.print(Program); //Program to run 
+            delay(100);
+            uint8_t SingleKey = KEY_RETURN;
+            Keyboard.press(SingleKey);
+            delay(100);
+            Keyboard.release(SingleKey); //release for singular keys
+            delay(100);
+        }
+
+
+    //-> Shows the users deasktop
+        void ShowDesktop()
+        {   
+            KeyCombination(KEY_LEFT_GUI, 'd');
+            delay(100);        
+        }
+
+    //-> Hides the user window 
+        void HideWindow()
+        {
+            KeyCombination(KEY_LEFT_ALT, ' ');
+            Keyboard.print(F("M"));
+            delay(100);
+            Keyboard.press(KEY_DOWN_ARROW);
+            delay(600);
+            Keyboard.release(KEY_DOWN_ARROW);
+            delay(100);
+            Keyboard.press(KEY_RETURN);
+            delay(100);
+            
+
+        }
+
+    //-> Copy
+        void Copy()
+        {   
+            KeyCombination(KEY_LEFT_CTRL, 'c');
+            delay(100);            
+        }
+
+    //-> Cut
+        void Cut()
+        {   
+            KeyCombination(KEY_LEFT_CTRL, 'x');
+            delay(100);          
+        }
+
+    //-> Paste
+        void Paste()
+        {   
+            KeyCombination(KEY_LEFT_CTRL, 'v');
+            delay(100);            
+        }
+
+
+//Virtual keyboard functions
+
+   //-> Closes the virtual keyboard 
+        void CloseVirtualKeyboard()
+        {
+            Keyboard.end();
+        }
+
+    //-> Loads the virtual keyboard
+        void OpenVirtualKeyboard()
+        {
+            Keyboard.begin();
+            delay(600);
+        }
+
+
+
